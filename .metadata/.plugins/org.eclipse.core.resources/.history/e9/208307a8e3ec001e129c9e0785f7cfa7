@@ -1,0 +1,47 @@
+package entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "aadhar")
+public class aadhar {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
+    @Column(name = "aadharNumber")
+    private String aadharNumber;
+
+    @OneToOne(mappedBy = "personaadharDetails", cascade = CascadeType.ALL)
+    private person person;
+
+    public int getId() {
+        return id;
+    }
+
+    public String getaadharNumber() {
+        return aadharNumber;
+    }
+
+    public void setaadharNumber(String aadharNumber) {
+        this.aadharNumber = aadharNumber;
+    }
+
+    public person getperson() {
+        return person;
+    }
+
+    public void setperson(person person) {
+        this.person = person;
+    }
+
+    @Override
+    public String toString() {
+        return "Aadhar{" +
+                "id=" + id +
+                ", aadharNumber='" + aadharNumber + '\'' +
+                ", person=" + (person != null ? person.getId() : "null") +
+                '}';
+    }
+}

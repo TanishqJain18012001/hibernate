@@ -1,0 +1,21 @@
+package entity;
+
+import jakarta.persistence.*;
+
+
+@Entity
+@Table(name = "laptops")
+public class Laptop {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "laptop_id")
+    private Long laptopId;
+
+    @Column(name = "brand")
+    private String brand;
+
+    @OneToOne(mappedBy = "laptop", cascade = CascadeType.ALL)
+    private MacAddress macAddress;
+
+    // Constructors, getters, and setters
+}

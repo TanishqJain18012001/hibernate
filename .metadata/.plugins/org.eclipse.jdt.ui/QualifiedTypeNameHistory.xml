@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="entity.Laptop"/>
+    <fullyQualifiedTypeName name="entity.MacAddress"/>
+    <fullyQualifiedTypeName name="entity.IPaddress"/>
+    <fullyQualifiedTypeName name="entities.Country"/>
+    <fullyQualifiedTypeName name="entities.State"/>
+    <fullyQualifiedTypeName name="entities.Station"/>
+    <fullyQualifiedTypeName name="entities.Train"/>
+    <fullyQualifiedTypeName name="configurations.HibernateUtils"/>
+</qualifiedTypeNameHistroy>

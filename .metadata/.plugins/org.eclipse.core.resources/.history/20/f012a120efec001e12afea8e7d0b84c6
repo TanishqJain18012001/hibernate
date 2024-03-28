@@ -1,0 +1,62 @@
+package entities;
+
+import jakarta.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "trains")
+public class Course {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "train_id")
+    private Long trainId;
+
+    @Column(name = "name")
+    private String name;
+
+    @ManyToMany(mappedBy = "trains")
+    private Set<Student> stations = new HashSet<>();
+
+    // Constructors, setters, and getters
+    public Course() {
+    }
+
+    public Course(String name) {
+        this.name = name;
+    }
+
+    public Long getTrainId() {
+        return trainId;
+    }
+
+    public void setTrainId(Long trainId) {
+        this.trainId = trainId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Student> getStations() {
+        return stations;
+    }
+
+    public void setStations(Set<Student> stations) {
+        this.stations = stations;
+    }
+
+    public void addStation(Student station) {
+        stations.add(station);
+        station.getTrains().add(this);
+    }
+
+    public void removeStation(Student station) {
+        stations.remove(station);
+        station.getTrains().remove(this);
+    }
+}

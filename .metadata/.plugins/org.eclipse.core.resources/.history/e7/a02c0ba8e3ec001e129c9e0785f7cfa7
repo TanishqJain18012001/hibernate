@@ -1,0 +1,21 @@
+package entity;
+
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "mac_addresses")
+public class MacAddress {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "mac_id")
+    private Long macId;
+
+    @Column(name = "address")
+    private String address;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "laptop_id")
+    private Laptop laptop;
+
+    // Constructors, getters, and setters
+}

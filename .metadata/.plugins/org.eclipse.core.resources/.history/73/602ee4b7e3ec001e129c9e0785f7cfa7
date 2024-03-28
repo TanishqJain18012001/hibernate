@@ -1,0 +1,47 @@
+package OneToOne.OneToOne;
+
+import configurations.HibernateUtils;
+import entity.aadhar;
+import entity.person;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+/**
+ * Hello world!
+ *
+ */
+public class App
+{
+    public static void main( String[] args )
+    {
+
+        person p1 = new person();
+        p1.setFname("Vishal Kumar");
+        p1.setLname("Sahu");
+        p1.setEmail("vishalkumar.sahu04@gmail.com");
+
+        aadhar a1 = new aadhar();
+        a1.setaadharNumber("340852613261");
+
+        a1.setperson(p1);
+        p1.setpersonaadharDetails(a1);
+
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        session.persist(p1);
+
+        session.getTransaction().commit();
+
+        System.out.println("Printing from person -: ");
+        person savedperson = session.get(person.class, 1);
+        System.out.println(savedperson);
+
+        System.out.println("Printing from aadhar -: ");
+        aadhar savedaadhar = session.get(aadhar.class, 1);
+        System.out.println(savedaadhar);
+
+        session.close();
+    }
+}

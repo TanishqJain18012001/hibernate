@@ -1,0 +1,42 @@
+package OneToOne.OneToOne;
+
+import entity.Laptop;
+import entity.MacAddress;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import configurations.HibernateUtils;
+
+public class Main {
+    public static void main(String[] args) {
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        // Create a new laptop
+        Laptop laptop = new Laptop();
+        laptop.setBrand("Dell");
+
+        // Create a Mac address
+        MacAddress macAddress = new MacAddress();
+        macAddress.setAddress("00-1A-2B-3C-4D-5E");
+
+        // Associate Mac address with laptop
+        laptop.setMacAddress(macAddress);
+        macAddress.setLaptop(laptop);
+        SessionFactory sessionFactory1 = HibernateUtils.getSessionFactory();
+        Session session1 = sessionFactory1.openSession();
+        session1.beginTransaction();
+
+        session1.persist(laptop);
+
+        session1.getTransaction().commit();
+        
+        System.out.println("Laptop and Mac Address saved successfully.");
+        System.out.println("Laptop ID: " + laptop.getLaptopId());
+        System.out.println("Laptop Brand: " + laptop.getBrand());
+        System.out.println("Mac Address ID: " + macAddress.getMacId());
+        System.out.println("Mac Address: " + macAddress.getAddress());
+        session1.close();
+        sessionFactory1.close();
+    }
+}

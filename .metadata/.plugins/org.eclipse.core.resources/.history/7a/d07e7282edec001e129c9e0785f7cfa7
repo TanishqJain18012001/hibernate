@@ -1,0 +1,53 @@
+package hibernateexample;
+
+import entities.Train;
+import entities.Station;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import utils.HibernateUtils;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create session factory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        // Create session
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        try {
+            // Create trains
+            Train train1 = new Train("Express");
+            Train train2 = new Train("Local");
+
+            // Create stations
+            Station station1 = new Station("Central");
+            Station station2 = new Station("Junction");
+
+            // Associate trains with stations
+            station1.addTrain(train1);
+            station1.addTrain(train2);
+            station2.addTrain(train1);
+
+            // Save trains and stations
+            session.persist(station1);
+            session.persist(station2);
+
+            // Commit transaction
+            session.getTransaction().commit();
+
+            // Print confirmation message
+            System.out.println("Trains and Stations saved successfully.");
+        } catch (Exception e) {
+            // Rollback transaction in case of error
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Close session and session factory
+            session.close();
+            sessionFactory.close();
+        }
+    }
+}

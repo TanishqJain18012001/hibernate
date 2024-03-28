@@ -1,0 +1,58 @@
+package OneToMany.OneToMany ;
+
+import entity.Laptop;
+import entity.IPAddress;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import configurations.HibernateUtils;
+
+public class Main {
+    public static void main(String[] args) {
+        // Create session factory
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+        // Create session
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        try {
+            // Create a new laptop
+            Laptop laptop = new Laptop("Dell");
+
+            // Create IP addresses
+            IPAddress ipAddress1 = new IPAddress("192.168.1.10");
+            IPAddress ipAddress2 = new IPAddress("192.168.1.11");
+
+            // Associate IP addresses with the laptop
+            laptop.addIPAddress(ipAddress1);
+            laptop.addIPAddress(ipAddress2);
+
+            // Save laptop (cascade will save IP addresses)
+            session.persist(laptop);
+
+            // Commit transaction
+            session.getTransaction().commit();
+
+            // Print confirmation message
+            System.out.println("Laptop and IP Addresses saved successfully.");
+            System.out.println("Laptop ID: " + laptop.getLaptopId());
+            System.out.println("Laptop Brand: " + laptop.getBrand());
+            System.out.println("IP Addresses:");
+
+            // Print the IP addresses associated with the laptop
+            for (IPAddress ipAddress : laptop.getIpAddresses()) {
+                System.out.println("- " + ipAddress.getAddress());
+            }
+        } catch (Exception e) {
+            // Rollback transaction in case of error
+            if (session.getTransaction() != null) {
+                session.getTransaction().rollback();
+            }
+            e.printStackTrace();
+        } finally {
+            // Close session and session factory
+            session.close();
+            sessionFactory.close();
+        }
+    }
+}
